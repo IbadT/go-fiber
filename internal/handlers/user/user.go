@@ -20,6 +20,8 @@ import (
 // @Param userId path string true "User ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Security ApiKeyAuth
 // @Router /{userId} [get]
 func GetUser(c *fiber.Ctx) error {
 	// xh http://localhost:8000/api/f7acf2fd-0b3b-444c-be07-d6008fc4b983
@@ -123,7 +125,7 @@ func LoginUser(c *fiber.Ctx) error {
 
 	// Устанавливаем cookie
 	c.Cookie(&fiber.Cookie{
-		Name:    "jwt",
+		Name:    "access_token",
 		Value:   tokenString,
 		Expires: time.Now().Add(time.Hour * 24),
 	})

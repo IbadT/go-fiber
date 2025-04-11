@@ -22,6 +22,10 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:8000
 // @BasePath /api
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 func main() {
 	if err := godotenv.Load(); err != nil {
 		fmt.Printf("Error loading .env file %s", err.Error())
