@@ -6,12 +6,12 @@ import (
 	"github.com/IbadT/go-fiber.git/config"
 	"github.com/IbadT/go-fiber.git/database"
 	"github.com/IbadT/go-fiber.git/internal/models"
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
 
-func GetUser(c fiber.Ctx) error {
+func GetUser(c *fiber.Ctx) error {
 	// xh http://localhost:8000/api/f7acf2fd-0b3b-444c-be07-d6008fc4b983
 	db := database.DB
 	id := c.Params("userId")
@@ -31,7 +31,7 @@ type RegisterRequest struct {
 	Password string `json:"password" example:"securepassword"`
 }
 
-func RegisterUser(c fiber.Ctx) error {
+func RegisterUser(c *fiber.Ctx) error {
 	// xh post http://localhost:8000/api/register \
 	//     email="user@example.com" \
 	//     password="securepassword"
@@ -39,7 +39,7 @@ func RegisterUser(c fiber.Ctx) error {
 
 	user := new(models.User)
 
-	if err := c.Bind().Body(user); err != nil {
+	if err := c.BodyParser(user); err != nil {
 		return c.Status(500).JSON(map[string]interface{}{"status": "error", "message": "Review yout input", "data": err})
 	}
 
@@ -60,7 +60,7 @@ type LoginRequest struct {
 	Password string `json:"password" example:"securepassword"`
 }
 
-func LoginUser(c fiber.Ctx) error {
+func LoginUser(c *fiber.Ctx) error {
 	// xh post http://localhost:8000/api/login \
 	//     email="user@example.com" \
 	//     password="securepassword"
@@ -68,7 +68,7 @@ func LoginUser(c fiber.Ctx) error {
 
 	user := models.User{}
 
-	if err := c.Bind().Body(&user); err != nil {
+	if err := c.BodyParser(&user); err != nil {
 		return c.Status(500).JSON(map[string]interface{}{"status": "error", "message": "Review yout input", "data": err})
 	}
 

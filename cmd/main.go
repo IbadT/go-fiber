@@ -7,13 +7,9 @@ import (
 	"github.com/IbadT/go-fiber.git/database"
 	_ "github.com/IbadT/go-fiber.git/internal/docs" // Подключение Swagger
 	"github.com/IbadT/go-fiber.git/router"
-	httpSwagger "github.com/swaggo/http-swagger"
-
-	// swagger "github.com/arsmn/fiber-swagger/v2" // Альтернативный пакет
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
-	"github.com/gofiber/fiber/v3"
-
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	swagger "github.com/swaggo/fiber-swagger"
 )
 
 // @title Fiber User API
@@ -33,26 +29,16 @@ func main() {
 
 	app := fiber.New()
 
-	// app.Use(swagger.New())
-
-	// app.Get("/swagger/*", fiberSwagger.WrapHandler)
-	// Конвертируем стандартный http.Handler в обработчик Fiber
-	swaggerHandler := adaptor.HTTPMiddleware(
-		httpSwagger.Handler(
-			httpSwagger.URL("/swagger/doc.json"),
-		),
-	)
-
-	// Настройка маршрута для Swagger UI
-	app.Get("/swagger/*", swaggerHandler)
-
 	database.ConnectDB()
 
 	router.SetupRoutes(app)
 
-	app.Get("/", func(c fiber.Ctx) error {
+	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Send([]byte("Hello"))
 	})
+
+	// Swagger configuration
+	app.Get("/swagger/*", swagger.WrapHandler)
 
 	log.Fatal(app.Listen(":8000"))
 }

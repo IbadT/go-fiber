@@ -2,10 +2,10 @@ package userRoutes
 
 import (
 	userHandler "github.com/IbadT/go-fiber.git/internal/handlers/user"
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
-func SetupNoteRoutes(router fiber.Router) {
+func SetupUserRoutes(router fiber.Router) {
 	// user := router.Group("/api")
 
 	router.Post("/register", userHandler.RegisterUser)
