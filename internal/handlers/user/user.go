@@ -11,6 +11,16 @@ import (
 	"github.com/google/uuid"
 )
 
+// GetUser godoc
+// @Summary Get user by ID
+// @Description Get user information by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param userId path string true "User ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /{userId} [get]
 func GetUser(c *fiber.Ctx) error {
 	// xh http://localhost:8000/api/f7acf2fd-0b3b-444c-be07-d6008fc4b983
 	db := database.DB
@@ -31,6 +41,17 @@ type RegisterRequest struct {
 	Password string `json:"password" example:"securepassword"`
 }
 
+// RegisterUser godoc
+// @Summary Register a new user
+// @Description Register a new user in the system
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body RegisterRequest true "User registration data"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /register [post]
 func RegisterUser(c *fiber.Ctx) error {
 	// xh post http://localhost:8000/api/register \
 	//     email="user@example.com" \
@@ -60,6 +81,17 @@ type LoginRequest struct {
 	Password string `json:"password" example:"securepassword"`
 }
 
+// LoginUser godoc
+// @Summary Login user
+// @Description Authenticate user and return token
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param credentials body LoginRequest true "User login credentials"
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /login [post]
 func LoginUser(c *fiber.Ctx) error {
 	// xh post http://localhost:8000/api/login \
 	//     email="user@example.com" \
