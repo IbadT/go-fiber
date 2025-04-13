@@ -38,7 +38,8 @@ func SetupRoutes(app *fiber.App) {
 
 	// Маршруты для пользователей
 	// Получение информации о пользователе по ID
-	protected.Get("/:userId", userHandler.GetUser)
+	// protected.Get("/:userId", userHandler.GetUser)
+	protected.Get("/", userHandler.GetUser)
 
 	// Маршруты для новостей
 	// Создание новой новости

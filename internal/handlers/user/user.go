@@ -26,10 +26,11 @@ import (
 func GetUser(c *fiber.Ctx) error {
 	// xh http://localhost:8000/api/f7acf2fd-0b3b-444c-be07-d6008fc4b983
 	db := database.DB
-	id := c.Params("userId")
+	// id := c.Params("userId")
+	email := c.Query("email")
 	var user models.User
 
-	db.Find(&user, "id = ?", id)
+	db.Find(&user, "email = ?", email)
 
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(map[string]interface{}{"status": "error", "message": "User is not founded", "data": nil})
