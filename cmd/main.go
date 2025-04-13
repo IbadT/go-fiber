@@ -9,6 +9,7 @@ import (
 	_ "github.com/IbadT/go-fiber.git/internal/docs" // Подключение Swagger
 	"github.com/IbadT/go-fiber.git/router"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	swagger "github.com/swaggo/fiber-swagger"
 )
@@ -33,6 +34,10 @@ func main() {
 	}
 
 	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 
 	database.ConnectDB()
 

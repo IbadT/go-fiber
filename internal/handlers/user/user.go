@@ -130,5 +130,5 @@ func LoginUser(c *fiber.Ctx) error {
 		Expires: time.Now().Add(time.Hour * 24),
 	})
 
-	return c.JSON(map[string]interface{}{"message": "Вход выполнен", "token": tokenString})
+	return c.JSON(map[string]interface{}{"message": "Вход выполнен", "access_token": tokenString})
 }
