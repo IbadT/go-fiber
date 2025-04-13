@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/IbadT/go-fiber.git/config"
 	"github.com/IbadT/go-fiber.git/database"
 	_ "github.com/IbadT/go-fiber.git/internal/docs" // Подключение Swagger
 	"github.com/IbadT/go-fiber.git/router"
@@ -41,10 +42,15 @@ func main() {
 		return c.Send([]byte("Hello"))
 	})
 
-	// Swagger configuration
-	app.Get("/swagger/*", swagger.WrapHandler)
+	env := config.Config("APP_ENV")
+	port := config.Config("PORT")
 
-	log.Fatal(app.Listen(":8000"))
+	if env == "development" {
+		// Swagger configuration
+		app.Get("/swagger/*", swagger.WrapHandler)
+	}
+
+	log.Fatal(app.Listen(port))
 }
 
 // swag init -g cmd/main.go --output internal/docs

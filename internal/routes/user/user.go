@@ -6,8 +6,6 @@ import (
 )
 
 func SetupUserRoutes(router fiber.Router) {
-	// user := router.Group("/api")
-
 	router.Post("/register", userHandler.RegisterUser)
 
 	router.Post("/login", userHandler.LoginUser)

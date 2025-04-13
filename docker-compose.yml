@@ -1,19 +1,47 @@
+version: '3.8'
+
 services:
-  postgres:
-    image: postgres:latest
-    container_name: my_postgres
-    restart: always
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hacker_news_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: hacker_news
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=hacker_news
+      - JWT_SECRET_WORD=your_secret_key
+    depends_on:
+      - db
+    networks:
+      - hacker_news_network
+
+  db:
+    image: postgres:15
+    container_name: hacker_news_db
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hacker_news
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - hacker_news_network
 
 volumes:
-  pg_data:
+  postgres_data:
+
+networks:
+  hacker_news_network:
+    driver: bridge
 
 
 
